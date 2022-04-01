@@ -4,7 +4,11 @@ import sys
 
 #PART 1: READ
 
-f = open("atmdyn.he_flare_t1e6", "r")
+atmosphere_name = str((sys.argv)[1])
+mhdfilein_name = str((sys.argv)[2])
+mhdfileout_name = str((sys.argv)[3])
+
+f = open(atmosphere_name, "r")
 
 lines = f.readlines()
 
@@ -62,8 +66,8 @@ for i in range(0, nopoints):
 
 #PART 3: INTERPOLATE ON A NEW GRID
 
-MHDinfile = open("RADYN_mesh.CFmesh", "r")
-MHDoutfile = open("Interpolated_print.CFmesh", "w")
+MHDinfile = open(mhdfilein_name ,"r")
+MHDoutfile = open(mhdfileout_name, "w")
 
 
 MHDlines = MHDinfile.readlines()
@@ -158,6 +162,8 @@ for MHDline in MHDlines:
 		new_t = 0.0
 		weights = 0.0
 
+		n_mindist = -1
+		mindist = 1e100
 		for n in range(0, nopoints):
                         y_radyn = hs_radyn[n]  
                         d_radyn = ds_radyn[n]
@@ -167,18 +173,24 @@ for MHDline in MHDlines:
 			if (distance == 0.0):
 				distance = 1e-17
 
-			weight = 1.0/distance**2
+			weight = 1.0/distance
 	
 			new_t = new_t + t_radyn*weight
                         new_d = new_d + d_radyn*weight
 
 			weights = weights + weight
 
+
+			if distance < mindist:
+				mindist = distance
+				n_mindist = n
+
 		if (weights != 0.0):
 			new_t = new_t/weights
                         new_d = new_d/weights
 
-
+		new_t = ts_radyn[n_mindist]
+		new_d = ds_radyn[n_mindist]
 
 		T0 = new_t
 		T1 = new_t
