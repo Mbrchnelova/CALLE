@@ -1,7 +1,7 @@
 import sys
 import math
 
-#z0, z1, d0, d1, tg1, coolt0, coolt1, heat1, advt, curt, dtnm, trl0, trl1
+#z0, z1, d0, d1, tg1, coolt0, coolt1, heat1, cmass0, cmass1, advt, curt, dtnm, trl0, trl1
 
 
 
