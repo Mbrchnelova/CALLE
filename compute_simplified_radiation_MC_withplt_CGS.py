@@ -550,7 +550,7 @@ def computeRadiation(mesh_arr, cells_arr, data_arr, ws, hs, imax, jmax):
 
 
 		#In actuallity, the losses are given by the local conditions in the corona, not in chromosphere
-		ne_cm = min(rho_arr) / mp
+		ne_cm = 1.67e-16 / mp
 		nH_cm = ne_cm
 		nH_m = nH_cm * 1e6
 		ne_m = ne_cm * 1e6
